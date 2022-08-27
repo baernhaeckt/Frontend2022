@@ -47,11 +47,24 @@ const router = createRouter({
     },
     {
       path: "/profile",
-      name: "profile",
-      component: () => import("../views/profile/Index.vue"),
-      meta: {
-        requireAuth: true,
-      },
+      children: [
+        {
+          path: "",
+          name: "Profile",
+          component: () => import("../views/profile/Index.vue"),
+          meta: {
+            requireAuth: true,
+          },
+        },
+        {
+          path: "uploadmeal",
+          name: "UploadMeal",
+          component: () => import("../views/profile/UploadMeal.vue"),
+          meta: {
+            requireAuth: true,
+          },
+        },
+      ]
     },
     {
       path: "/login",

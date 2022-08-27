@@ -40,7 +40,7 @@
                     :key="`NutriScore${groupIndex}${groupItemIndex}${scoreIndex}`"></NutritionScore>
                 </b-col>
               </b-row>
-              <b-button variant="primary" class="cart-next-step" @click="() => checkoutItem(recommendation)">
+              <b-button variant="link" class="cart-next-step" @click="() => checkoutItem(recommendation)">
                 <NextStep></NextStep>
               </b-button>
             </b-card-body>
@@ -57,7 +57,7 @@ import { storeToRefs } from "pinia"
 import { ref } from "vue"
 import { recommendMenu } from "../../services/recommend-service"
 
-import NextStep from "$icons/wicker-basket.svg"
+import NextStep from "$icons/add-to-basket.svg"
 import router from "../../router"
 
 export default {
@@ -159,11 +159,11 @@ export default {
   .cart-next-step {
     position: absolute;
     top: 10px;
-    right: 30px;
+    right: 18px;
 
     svg {
-      width: 30px;
-      height: 30px;
+      width: 35px;
+      height: 35px;
     }
   }
 }

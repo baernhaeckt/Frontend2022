@@ -1,47 +1,91 @@
 <template>
     <h1>Dein <span class="text-primary">freshfood</span> station Profil</h1>
-    <b-button variant="primary" @click="logout">Logout</b-button>
+    <div v-if="isLoading" class="d-flex justify-content-center">
+        <div class="mt-5">
+            <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
+        </div>
+    </div>
+    <div v-else-if="userProfile !== undefined && userProfile !== null">
+        <p>Hallo {{ userProfile.email }}, hier kannst Du Deinen Energie-Verbrauch tracken und hast jederzeit einen
+            Überblich
+            über Deine Ernährung.</p>
+        <h2>Fitness-Tracker Integration</h2>
+        <div class="clearfix mb-3">
+            <p>Damit Du noch genauere Ergebnisse erhälst und speziell auf Dich zugeschnittene Ernährungsempfehlungen
+                erhälst,
+                kannst Du Deinen Fitness-Tracker anbinden.</p>
+            <b-button variant="primary" class="float-end">Anbindung starten &raquo;</b-button>
+        </div>
 
-    <pre>{{ userProfile }}</pre>
+        <h2>Sonstige Mahlzeiten aufzeichnen</h2>
+        <div class="mb-3">
+            <p>Um den genauen restlichen Bedarf an Proteinen, Kohlenhydraten und Fetten zu errechnen, kannst Du mit
+                nachfolgendem Formular Deine Mahlzeiten vor dem Verzehr fotografieren. Das eingesendete Foto wird
+                mittels
+                einer
+                Künstlichen Intelligenz analysiert und der entsprechende Nährwert errechnet.</p>
+
+            <input ref="file" v-on:change="(e) => handleFileUpload(e)" type="file" />
+        </div>
+
+        <h2>Sicher ausloggen</h2>
+        <b-button variant="primary" class="float-end" @click="logout">Logout</b-button>
+    </div>
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/auth';
 import { currentUserProfile } from '@/services/user-service'
+import { uploadMeal } from '@/services/user-service'
 
 import router from '../../router';
 import { ref } from 'vue';
+
+import CameraIcon from '$icons/camera.svg'
 
 export default {
     setup() {
         const auth = useAuthStore()
 
         const userProfile = ref(null)
+        const file = ref(null)
+        const isLoading = ref(false)
 
         return {
             auth,
             currentUserProfile,
-            userProfile
+            userProfile,
+            file,
+            isLoading
         }
     },
+    components: {
+        CameraIcon
+    },
     async mounted() {
-        if (this.auth.isAuthenticated) {
-            var result = await this.currentUserProfile()
-            this.userProfile = result
-        }
+        await this.loadUserProfile()
     },
     methods: {
         logout() {
             this.auth.logout()
             router.push('/')
         },
-        loadUserProfile() {
+        async loadUserProfile() {
             if (this.auth.isAuthenticated) {
-                var result = this.currentUserProfile()
-                return result
+                this.isLoading = true
+                var result = await this.currentUserProfile()
+                this.userProfile = result
+                this.isLoading = false
             }
 
-            return null;
+            if (this.userProfile === undefined || this.userProfile === null) {
+                this.userProfile = null
+                this.auth.logout()
+                router.push('/')
+            }
+        },
+        handleFileUpload(event) {
+            uploadMeal(event.target.files[0])
         }
     }
 }
