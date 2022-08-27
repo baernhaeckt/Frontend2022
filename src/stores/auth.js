@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { defaults } from "mande";
-import { registerUser } from "../services/user-service";
+import { registerUser, loginUser } from "../services/user-service";
 import { ref } from "vue";
 
 export const useAuthStore = defineStore("auth", {
@@ -27,10 +27,28 @@ export const useAuthStore = defineStore("auth", {
 
       return true;
     },
+    async tryLogin(email, password) {
+      var result = await loginUser(email, password)
+
+      if (!result.token) {
+        return false
+      }
+
+      localStorage.setItem("auth-token", result.token)
+      this.authToken = result.token
+      defaults.headers.Authorization = `bearer ${result.token}`
+
+      return true;
+    },
     logout() {
       localStorage.removeItem("auth-token")
       this.authToken = null
       defaults.headers.Authorization = ''
+    },
+    startup() {
+      if (this.isAuthenticated) {
+        defaults.headers.Authorization = `bearer ${this.authToken}`
+      }
     }
   }
 })

@@ -4,17 +4,21 @@ import BootstrapVue3 from "bootstrap-vue-3";
 
 import GlobalComponents from './globals'
 
-import Header from "@/components/layout/Header.vue";
-import HeaderDivider from "@/components/layout/HeaderDivider.vue";
-
 import App from "./App.vue";
 import router from "./router";
+
+import { useAuthStore } from './stores/auth'
 
 const app = createApp(App);
 
 app.config.devtools = true
 
 app.use(createPinia());
+
+const authStore = useAuthStore()
+authStore.startup()
+
+
 app.use(BootstrapVue3);
 app.use(GlobalComponents)
 app.use(router);

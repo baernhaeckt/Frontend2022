@@ -5,14 +5,17 @@ const users = mande(BASE_URL + "/api/users");
 
 export function registerUser(email) {
   return users.post("register", {
-    email: email,
-    password: 'nonsense'
+    email: email
   });
 }
 
-export function login(email, password) {
+export function loginUser(email, password) {
   return users.post("login", {
     email: email,
     password: password,
   });
+}
+
+export async function currentUserProfile() {
+  return await users.get("profile");
 }
