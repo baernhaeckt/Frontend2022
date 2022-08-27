@@ -52,7 +52,6 @@ export default {
                 color: this.calculateBarColor(this.optimum, this.value)
             }
 
-            console.log(result);
             return result;
         }
     },

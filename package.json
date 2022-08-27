@@ -17,6 +17,7 @@
     "bootstrap-vue-3": "^0.2.11",
     "lodash": "^4.17.21",
     "mande": "^2.0.3",
+    "moment": "^2.29.4",
     "pinia": "^2.0.17",
     "vite-require": "^0.2.3",
     "vue": "^3.2.37",

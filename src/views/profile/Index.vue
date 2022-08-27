@@ -38,7 +38,6 @@ export default {
         loadUserProfile() {
             if (this.auth.isAuthenticated) {
                 var result = this.currentUserProfile()
-                console.log(result)
                 return result
             }
 

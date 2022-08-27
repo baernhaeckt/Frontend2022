@@ -6,7 +6,7 @@
         <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
       </div>
     </div>
-    <b-row v-else>
+    <b-row v-else class="select-menu">
       <b-col>
         <b-card-group v-for="(recommendationLine, groupIndex) in groupBy(menuRecommendations, 2)"
           :key="`RecGroup${groupIndex}`">
@@ -40,6 +40,9 @@
                     :key="`NutriScore${groupIndex}${groupItemIndex}${scoreIndex}`"></NutritionScore>
                 </b-col>
               </b-row>
+              <b-button variant="primary" class="cart-next-step" @click="() => checkoutItem(recommendation)">
+                <NextStep></NextStep>
+              </b-button>
             </b-card-body>
           </b-card>
         </b-card-group>
@@ -53,6 +56,9 @@ import { useOrderStore } from "@/stores/order"
 import { storeToRefs } from "pinia"
 import { ref } from "vue"
 import { recommendMenu } from "../../services/recommend-service"
+
+import NextStep from "$icons/wicker-basket.svg"
+import router from "../../router"
 
 export default {
   setup() {
@@ -71,6 +77,9 @@ export default {
       exceptDishTypes,
       menuRecommendations
     }
+  },
+  components: {
+    NextStep
   },
   methods: {
     deselectedDishTypeChanged(newDeselectedDishTypes) {
@@ -124,6 +133,11 @@ export default {
       })
 
       return result;
+    },
+    checkoutItem(itemToCheckout) {
+      this.orderStore.storeSelectedItem(itemToCheckout)
+
+      router.push('/order/configuremenu')
     }
   },
   async mounted() {
@@ -133,11 +147,24 @@ export default {
 </script>
 
 <stype lang="scss">
-.dish-ingridients {
-  svg {
-    width: 20px;
-    height: 20px;
-    margin: 5px 2px 5px 0;
+.select-menu {
+  .dish-ingridients {
+    svg {
+      width: 20px;
+      height: 20px;
+      margin: 5px 2px 5px 0;
+    }
+  }
+
+  .cart-next-step {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
   }
 }
 </stype>

@@ -12,11 +12,38 @@ const router = createRouter({
     },
     {
       path: "/order",
-      name: "order",
-      component: () => import("../views/order/OrderStart.vue"),
-      meta: {
-        hideHeader: true,
-      },
+      children: [
+        {
+          path: "",
+          name: "SelectMenu",
+          component: () => import("../views/order/OrderSelectMenu.vue"),
+          meta: {
+            hideHeader: true,
+          }
+        },
+        {
+          path: "configuremenu",
+          name: "ConfigureMenu",
+          component: () => import("../views/order/ConfigureMenu.vue"),
+          meta: {
+            hideHeader: true,
+          }
+        },
+        {
+          path: "payment",
+          name: "Payment",
+          component: () => import("../views/order/Payment.vue"),
+          meta: {
+          }
+        },
+        {
+          path: "thankyou",
+          name: "ThankYou",
+          component: () => import("../views/order/Thankyou.vue"),
+          meta: {
+          }
+        }
+      ]
     },
     {
       path: "/profile",

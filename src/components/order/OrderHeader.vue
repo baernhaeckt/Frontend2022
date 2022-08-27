@@ -46,6 +46,7 @@ import CheckMarkIcon from "$icons/check-mark.svg"
 import CrossIcon from "$icons/cancel.svg"
 
 export default {
+    emits: ['deselected-dishtypes:change'],
     setup() {
 
         const deselectedDishTypes = ref([])
