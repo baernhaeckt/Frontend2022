@@ -6,22 +6,32 @@
         <b-row class="dish-selector-container">
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <DishSalad :enableClickAnimation="haveOrder"></DishSalad>
+                    <DishSalad :enableClickAnimation="true" @click="() => toggleDishType('Bowl')"></DishSalad>
+                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Bowl') < 0" class="state-icon"></CheckMarkIcon>
+                    <CrossIcon v-else class="state-icon"></CrossIcon>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <DishCubes :enableClickAnimation="haveOrder"></DishCubes>
+                    <DishCubes :enableClickAnimation="true" @click="() => toggleDishType('PotatoCubes')"></DishCubes>
+                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('PotatoCubes') < 0" class="state-icon">
+                    </CheckMarkIcon>
+                    <CrossIcon v-else class="state-icon"></CrossIcon>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <DishIce :enableClickAnimation="haveOrder"></DishIce>
+                    <DishIce :enableClickAnimation="true" @click="() => toggleDishType('Ice')"></DishIce>
+                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Ice') < 0" class="state-icon"></CheckMarkIcon>
+                    <CrossIcon v-else class="state-icon"></CrossIcon>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <DishDrink :enableClickAnimation="haveOrder"></DishDrink>
+                    <DishDrink :enableClickAnimation="true" @click="() => toggleDishType('Smoothies')"></DishDrink>
+                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Smoothies') < 0" class="state-icon">
+                    </CheckMarkIcon>
+                    <CrossIcon v-else class="state-icon"></CrossIcon>
                 </a>
             </b-col>
         </b-row>
@@ -32,18 +42,16 @@
 import { toRefs, ref } from 'vue';
 import { RouterLink } from "vue-router";
 
+import CheckMarkIcon from "$icons/check-mark.svg"
+import CrossIcon from "$icons/cancel.svg"
+
 export default {
-    props: {
-        order: {
-            Type: Object,
-            default: null
-        }
-    },
-    setup(props) {
-        const { order } = toRefs(props)
+    setup() {
+
+        const deselectedDishTypes = ref([])
 
         return {
-            currentOrder: order
+            deselectedDishTypes
         }
     },
     computed: {
@@ -51,8 +59,22 @@ export default {
             return this.currentOrder !== null && this.currentOrder !== undefined
         }
     },
+    methods: {
+        toggleDishType(dishType) {
+            const itemIndex = this.deselectedDishTypes.indexOf(dishType)
+            if (itemIndex >= 0) {
+                this.deselectedDishTypes.splice(itemIndex, 1)
+            } else {
+                this.deselectedDishTypes.push(dishType)
+            }
+
+            this.$emit('deselected-dishtypes:change', this.deselectedDishTypes)
+        }
+    },
     components: {
-        RouterLink
+        RouterLink,
+        CheckMarkIcon,
+        CrossIcon
     }
 }
 </script>
@@ -80,6 +102,15 @@ export default {
                 display: inline-block;
                 position: relative;
                 padding: 15px;
+
+                .state-icon {
+                    width: 30px;
+                    height: 30px;
+
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                }
             }
 
             &:last-child {}

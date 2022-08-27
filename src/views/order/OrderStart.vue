@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OrderHeader :order="currentOrder"></OrderHeader>
+    <OrderHeader :order="currentOrder" @deselected-dishtypes:change="deselectedDishTypeChanged"></OrderHeader>
     <div v-if="isLoading" class="d-flex justify-content-center">
       <div class="mt-5">
         <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
@@ -73,6 +73,10 @@ export default {
     }
   },
   methods: {
+    deselectedDishTypeChanged(newDeselectedDishTypes) {
+      this.exceptDishTypes = newDeselectedDishTypes
+      this.loadMenuRecommendations()
+    },
     async loadMenuRecommendations() {
       this.isLoading = true
       const result = await recommendMenu(this.exceptDishTypes)
@@ -124,11 +128,6 @@ export default {
   },
   async mounted() {
     await this.loadMenuRecommendations()
-  },
-  watch: {
-    'exceptDishTypes': async () => {
-      await this.loadMenuRecommendations()
-    }
   }
 }
 </script>
