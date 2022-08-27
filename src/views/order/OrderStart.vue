@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OrderHeader :order="currentOrder" @deselected-dishtypes:change="deselectedDishTypeChanged"></OrderHeader>
+    <OrderHeader @deselected-dishtypes:change="deselectedDishTypeChanged"></OrderHeader>
     <div v-if="isLoading" class="d-flex justify-content-center">
       <div class="mt-5">
         <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
@@ -8,7 +8,7 @@
     </div>
     <b-row v-else>
       <b-col>
-        <b-card-group v-for="(recommendationLine, groupIndex) in groupBy(menuRecommendations, 3)"
+        <b-card-group v-for="(recommendationLine, groupIndex) in groupBy(menuRecommendations, 2)"
           :key="`RecGroup${groupIndex}`">
           <b-card bg-variant="dark" v-for="(recommendation, groupItemIndex) in recommendationLine"
             :key="`RecItem${groupIndex}_${groupItemIndex}`">

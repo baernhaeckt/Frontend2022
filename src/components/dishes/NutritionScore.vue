@@ -6,6 +6,7 @@
                 :style="{ width: `${barConfiguration.value}%`, 'background-color': barConfiguration.color }">
             </div>
         </div>
+        <div class="optimum-bar" :style="{ 'left': `${barConfiguration.optimum}%` }"></div>
     </div>
 </template>
 
@@ -44,12 +45,15 @@ export default {
     computed: {
         barConfiguration() {
             var multiplicator = 100.0 / this.maximum
-            return {
+            var result = {
                 label: this.label,
                 value: this.value * multiplicator,
-                otpimum: this.optimum * multiplicator,
+                optimum: this.optimum * multiplicator,
                 color: this.calculateBarColor(this.optimum, this.value)
             }
+
+            console.log(result);
+            return result;
         }
     },
     methods: {
@@ -67,4 +71,17 @@ export default {
 </script>
 
 <style lang="scss">
+.nutrition-score {
+    position: relative;
+
+    .optimum-bar {
+        position: absolute;
+        width: 3px;
+        height: 8px;
+        bottom: -2px;
+        z-index: 10000;
+
+        background-color: red;
+    }
+}
 </style>

@@ -103,6 +103,8 @@ export default {
                 position: relative;
                 padding: 15px;
 
+                cursor: pointer;
+
                 .state-icon {
                     width: 30px;
                     height: 30px;
