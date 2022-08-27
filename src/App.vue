@@ -1,6 +1,6 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import Header from './components/layout/Header.vue'
+import { RouterView } from "vue-router";
+import Header from "./components/layout/Header.vue";
 </script>
 
 <template>
@@ -11,6 +11,6 @@ import Header from './components/layout/Header.vue'
   </div>
 </template>
 
-<style type="scss">
-
+<style lang="scss">
+@import "@/scss/styles.scss";
 </style>

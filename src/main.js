@@ -1,16 +1,22 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import BootstrapVue3 from 'bootstrap-vue-3'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import BootstrapVue3 from "bootstrap-vue-3";
 
-import App from './App.vue'
-import router from './router'
+import GlobalComponents from './globals'
 
-import './scss/styles.scss'
+import Header from "@/components/layout/Header.vue";
+import HeaderDivider from "@/components/layout/HeaderDivider.vue";
 
-const app = createApp(App)
+import App from "./App.vue";
+import router from "./router";
 
-app.use(createPinia())
-app.use(BootstrapVue3)
-app.use(router)
+const app = createApp(App);
 
-app.mount('#app')
+app.config.devtools = true
+
+app.use(createPinia());
+app.use(BootstrapVue3);
+app.use(GlobalComponents)
+app.use(router);
+
+app.mount("#app");

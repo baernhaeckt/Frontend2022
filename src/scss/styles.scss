@@ -1,4 +1,3 @@
-
 $primary: #7fca31;
 $secondary: #1e191a;
 $dark: #353232;
@@ -7,3 +6,11 @@ $body-bg: #1e191a;
 $body-color: #eee;
 
 @import "/node_modules/bootstrap/scss/bootstrap";
+
+.btn {
+    border: 1px solid $primary;
+
+    &:focus {
+        border: 1px solid darken($primary, 10%);
+    }
+}
