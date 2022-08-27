@@ -7,6 +7,10 @@
     <NutritionBroccoli v-if="ingridientIconName === '🥦'"></NutritionBroccoli>
     <NutritionCucumber v-if="ingridientIconName === '🥒'"></NutritionCucumber>
     <NutritionTomato v-if="ingridientIconName === '🍅'"></NutritionTomato>
+    <NutritionApple v-if="ingridientIconName === '🍎'"></NutritionApple>
+    <NutritionChickPea v-if="ingridientIconName === 'chickpea'"></NutritionChickPea>
+    <NutritionQuinoa v-if="ingridientIconName === 'quinoa'"></NutritionQuinoa>
+    <NutritionRice v-if="ingridientIconName === '🍚'"></NutritionRice>
 </template>
 
 <script>
@@ -20,6 +24,10 @@ import NutritionVanilla from '$icons/vanilla.svg'
 import NutritionBroccoli from '$icons/025-broccoli.svg'
 import NutritionCucumber from '$icons/004-cucumber.svg'
 import NutritionTomato from '$icons/003-tomato.svg'
+import NutritionApple from '$icons/001-apple.svg'
+import NutritionChickPea from '$icons/chickpea.svg'
+import NutritionQuinoa from '$icons/quinoa.svg'
+import NutritionRice from '$icons/brown-rice.svg'
 
 export default {
     props: {
@@ -44,6 +52,10 @@ export default {
         NutritionBroccoli,
         NutritionCucumber,
         NutritionTomato,
+        NutritionApple,
+        NutritionChickPea,
+        NutritionQuinoa,
+        NutritionRice,
     }
 }
 </script>
