@@ -1,4 +1,7 @@
 <template>
+    <div class="top-bar">
+        <router-link to="/">&laquo; Zurück</router-link>
+    </div>
     <div class="order-header">
         <b-row class="dish-selector-container">
             <b-col class="dish-selector-col">
@@ -35,6 +38,7 @@
 
 <script>
 import { toRefs, ref } from 'vue';
+import { RouterLink } from "vue-router";
 
 import Salad from '$icons/salad.svg'
 import Cubes from '$icons/cubes.svg'
@@ -53,6 +57,7 @@ export default {
         }
     },
     components: {
+        RouterLink,
         Salad,
         Cubes,
         IceCream,

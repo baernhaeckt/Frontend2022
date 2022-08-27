@@ -1,0 +1,10 @@
+{
+    "name": "freshfood station - Xung anstatt Pfung",
+    "short_name": "freshfood station",
+    "theme_color": "#7fca31",
+    "background_color": "#1e191a",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/"
+}
