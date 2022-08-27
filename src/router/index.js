@@ -55,15 +55,7 @@ const router = createRouter({
           meta: {
             requireAuth: true,
           },
-        },
-        {
-          path: "uploadmeal",
-          name: "UploadMeal",
-          component: () => import("../views/profile/UploadMeal.vue"),
-          meta: {
-            requireAuth: true,
-          },
-        },
+        }
       ]
     },
     {
