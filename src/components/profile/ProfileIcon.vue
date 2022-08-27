@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Man from '$icons/man.svg'
+import Man from '$icons/bodybuilding.svg'
 import NotLoggedIn from '$icons/not-loggedin.svg'
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
