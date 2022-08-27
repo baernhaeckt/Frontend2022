@@ -6,7 +6,7 @@ import Header from "./components/layout/Header.vue";
 <template>
   <Header v-if="!$route.meta.hideHeader" />
 
-  <div class="container-fluid my-3">
+  <div class="container-fluid mb-3">
     <RouterView />
   </div>
 </template>
