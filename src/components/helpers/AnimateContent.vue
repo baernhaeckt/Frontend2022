@@ -1,6 +1,6 @@
 <template>
     <div :class="['animated', { 'animation-start': animateEntrance, 'click-animate': animateOnClick, 'animation-finish': animationFinished }]"
-        @click="clickAnimate">
+        @click="clickAnimate" @touchstart="clickAnimate">
         <slot />
     </div>
 </template>
@@ -13,10 +13,14 @@ export default {
         delay: {
             type: Number,
             required: true
+        },
+        enableClickAnimation: {
+            type: Boolean,
+            default: false
         }
     },
     setup(props) {
-        const { delay } = toRefs(props)
+        const { delay, enableClickAnimation } = toRefs(props)
 
         const animateEntrance = ref(false)
         const animateOnClick = ref(false)
@@ -24,6 +28,7 @@ export default {
 
         return {
             delay,
+            enableClickAnimation,
             animateEntrance,
             animateOnClick,
             animationFinished
@@ -51,6 +56,10 @@ export default {
     },
     methods: {
         clickAnimate() {
+            if (!this.enableClickAnimation) {
+                return
+            }
+
             this.animateOnClick = true
             setTimeout(() => {
                 this.animateOnClick = false

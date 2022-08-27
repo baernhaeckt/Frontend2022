@@ -6,29 +6,33 @@
         <b-row class="dish-selector-container">
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="0">
+                    <AnimateContent :delay="0" :enableClickAnimation="haveOrder">
                         <Salad viewBox="0 0 512 512" />
+                        <Salad viewBox="0 0 512 512" class="filter-overlay" />
                     </AnimateContent>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="150">
+                    <AnimateContent :delay="150" :enableClickAnimation="haveOrder">
                         <Cubes viewBox="0 0 512 512" />
+                        <Cubes viewBox="0 0 512 512" class="filter-overlay" />
                     </AnimateContent>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="300">
+                    <AnimateContent :delay="300" :enableClickAnimation="haveOrder">
                         <IceCream viewBox="0 0 512 512" />
+                        <IceCream viewBox="0 0 512 512" class="filter-overlay" />
                     </AnimateContent>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="450">
+                    <AnimateContent :delay="450" :enableClickAnimation="haveOrder">
                         <Drink />
+                        <Drink class="filter-overlay" />
                     </AnimateContent>
                 </a>
             </b-col>
@@ -47,13 +51,21 @@ import Drink from '$icons/drink.svg'
 
 export default {
     props: {
-        currentOrder: Object
+        order: {
+            Type: Object,
+            default: null
+        }
     },
     setup(props) {
-        const { currentOrder } = toRefs(props)
+        const { order } = toRefs(props)
 
         return {
-            currentOrder
+            currentOrder: order
+        }
+    },
+    computed: {
+        haveOrder() {
+            return this.currentOrder !== null && this.currentOrder !== undefined
         }
     },
     components: {
@@ -87,7 +99,22 @@ export default {
 
             .dish-selector {
                 display: inline-block;
+                position: relative;
                 padding: 15px;
+
+                .filter-overlay {
+                    filter: brightness(0) saturate(100%) invert(71%) sepia(73%) saturate(433%) hue-rotate(40deg) brightness(88%) contrast(95%) opacity(15%);
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 0;
+                }
             }
 
             &:last-child {}

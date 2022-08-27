@@ -11,8 +11,6 @@ export default {
                 _.camelCase(path.split('/').pop().replace(/\.\w+$/, ''))
             );
 
-            console.log(`Registering component ${componentName}`)
-
             app.component(
                 componentName, m.default
             )
