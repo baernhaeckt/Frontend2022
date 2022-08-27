@@ -6,34 +6,22 @@
         <b-row class="dish-selector-container">
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="0" :enableClickAnimation="haveOrder">
-                        <Salad viewBox="0 0 512 512" />
-                        <Salad viewBox="0 0 512 512" class="filter-overlay" />
-                    </AnimateContent>
+                    <DishSalad :enableClickAnimation="haveOrder"></DishSalad>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="150" :enableClickAnimation="haveOrder">
-                        <Cubes viewBox="0 0 512 512" />
-                        <Cubes viewBox="0 0 512 512" class="filter-overlay" />
-                    </AnimateContent>
+                    <DishCubes :enableClickAnimation="haveOrder"></DishCubes>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="300" :enableClickAnimation="haveOrder">
-                        <IceCream viewBox="0 0 512 512" />
-                        <IceCream viewBox="0 0 512 512" class="filter-overlay" />
-                    </AnimateContent>
+                    <DishIce :enableClickAnimation="haveOrder"></DishIce>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
                 <a class="dish-selector">
-                    <AnimateContent :delay="450" :enableClickAnimation="haveOrder">
-                        <Drink />
-                        <Drink class="filter-overlay" />
-                    </AnimateContent>
+                    <DishDrink :enableClickAnimation="haveOrder"></DishDrink>
                 </a>
             </b-col>
         </b-row>
@@ -43,11 +31,6 @@
 <script>
 import { toRefs, ref } from 'vue';
 import { RouterLink } from "vue-router";
-
-import Salad from '$icons/salad.svg'
-import Cubes from '$icons/cubes.svg'
-import IceCream from '$icons/ice-cream.svg'
-import Drink from '$icons/drink.svg'
 
 export default {
     props: {
@@ -69,11 +52,7 @@ export default {
         }
     },
     components: {
-        RouterLink,
-        Salad,
-        Cubes,
-        IceCream,
-        Drink
+        RouterLink
     }
 }
 </script>
@@ -101,20 +80,6 @@ export default {
                 display: inline-block;
                 position: relative;
                 padding: 15px;
-
-                .filter-overlay {
-                    filter: brightness(0) saturate(100%) invert(71%) sepia(73%) saturate(433%) hue-rotate(40deg) brightness(88%) contrast(95%) opacity(15%);
-                    display: block;
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 0;
-                }
             }
 
             &:last-child {}

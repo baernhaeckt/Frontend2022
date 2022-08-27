@@ -18,9 +18,9 @@ app.use(createPinia());
 const authStore = useAuthStore()
 authStore.startup()
 
-
 app.use(BootstrapVue3);
-app.use(GlobalComponents)
 app.use(router);
+
+app.use(GlobalComponents)
 
 app.mount("#app");

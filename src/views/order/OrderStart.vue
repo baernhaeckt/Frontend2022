@@ -11,9 +11,35 @@
         <b-card-group v-for="(recommendationLine, groupIndex) in groupBy(menuRecommendations, 3)"
           :key="`RecGroup${groupIndex}`">
           <b-card bg-variant="dark" v-for="(recommendation, groupItemIndex) in recommendationLine"
-            :key="`RecItem${groupItemIndex}`">
+            :key="`RecItem${groupIndex}_${groupItemIndex}`">
             <b-card-body>
-              {{ recommendation.name }}
+              <h3 class="h5 mb-2">{{ recommendation.name }}</h3>
+              <b-row>
+                <b-col :cols="8">
+                  <b-row v-for="(dish, dishIndex) in recommendation.dishes"
+                    :key="`DishDescription${groupIndex}_${groupItemIndex}_${dishIndex}`" class="mb-2">
+                    <b-col :cols="3">
+                      <DishSalad v-if="dish.dishType === 'Bowl'"></DishSalad>
+                      <DishCubes v-if="dish.dishType === 'PotatoCubes'"></DishCubes>
+                      <DishIce v-if="dish.dishType === 'Ice'"></DishIce>
+                      <DishDrink v-if="dish.dishType === 'Smoothies'"></DishDrink>
+                    </b-col>
+                    <b-col :cols="9">
+                      <div class="dish-ingridients">
+                        <NutritionIcon v-for="(ingredient, ingredientIndex) in dish.ingredients"
+                          :key="`IngredientIcon${groupIndex}_${groupItemIndex}_${dishIndex}_${ingredientIndex}`"
+                          :ingridientIconName="ingredient.icon"></NutritionIcon>
+                      </div>
+                    </b-col>
+                  </b-row>
+                </b-col>
+                <b-col :cols="4">
+                  <NutritionScore v-if="recommendation.dishes" :label="nutritionScore.label"
+                    :value="nutritionScore.value" :maximum="nutritionScore.maximum" :optimum="nutritionScore.optimum"
+                    v-for="(nutritionScore, scoreIndex) in calculateNutritionScores(recommendation.dishes)"
+                    :key="`NutriScore${groupIndex}${groupItemIndex}${scoreIndex}`"></NutritionScore>
+                </b-col>
+              </b-row>
             </b-card-body>
           </b-card>
         </b-card-group>
@@ -54,6 +80,10 @@ export default {
       this.isLoading = false
     },
     groupBy(data = [], itemsPerGroup = 3) {
+      if (data == undefined || data === null || data.lengt === 0) {
+        return [[]]
+      }
+
       const result = data.reduce((groups, item) => {
         if (groups[groups.length - 1].length == itemsPerGroup) {
           groups.push([item])
@@ -65,18 +95,50 @@ export default {
       }, [[]])
 
       return result
+    },
+    calculateNutritionScores(dishes) {
+      var result = [
+        this.calculateNutritionModel(dishes, x => x.calories, 250, 2500, 'kCal'),
+        this.calculateNutritionModel(dishes, x => x.carbohydrates, 300, 750, 'KH'),
+        this.calculateNutritionModel(dishes, x => x.fat, 233, 650, 'Fe'),
+        this.calculateNutritionModel(dishes, x => x.proteins, 528, 850, 'Prot')
+      ]
+      return result;
+    },
+    calculateNutritionModel(dishes, valueSelector, optimumValue, maximumValue, label) {
+      var result = dishes.reduce((nutritionData, dish) => {
+        const dishValue = dish.ingredients.reduce((sum, ingredience) => sum + valueSelector(ingredience), 0)
+        nutritionData.value = (nutritionData.value || 0) + dishValue
+        nutritionData.maximum = maximumValue
+        nutritionData.optimum = optimumValue
+
+        return nutritionData
+      }, {
+        label: label,
+        maximum: maximumValue,
+        optimum: optimumValue
+      })
+
+      return result;
     }
   },
-  mounted() {
-    this.loadMenuRecommendations()
+  async mounted() {
+    await this.loadMenuRecommendations()
   },
   watch: {
-    'exceptDishTypes': () => {
-      this.loadMenuRecommendations()
+    'exceptDishTypes': async () => {
+      await this.loadMenuRecommendations()
     }
   }
 }
 </script>
 
 <stype lang="scss">
+.dish-ingridients {
+  svg {
+    width: 20px;
+    height: 20px;
+    margin: 5px 2px 5px 0;
+  }
+}
 </stype>
