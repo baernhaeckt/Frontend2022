@@ -6,7 +6,7 @@
                 :style="{ width: `${barConfiguration.value}%`, 'background-color': barConfiguration.color }">
             </div>
         </div>
-        <div class="optimum-bar" :style="{ 'left': `${barConfiguration.optimum}%` }"></div>
+        <div v-if="optimum !== null" class="optimum-bar" :style="{ 'left': `${barConfiguration.optimum}%` }"></div>
     </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
         },
         optimum: {
             type: Number,
-            required: true
+            default: null
         }
     },
     setup(props) {
@@ -48,7 +48,7 @@ export default {
             var result = {
                 label: this.label,
                 value: this.value * multiplicator,
-                optimum: this.optimum * multiplicator,
+                optimum: this.optimum !== null ? this.optimum * multiplicator : null,
                 color: this.calculateBarColor(this.optimum, this.value)
             }
 
@@ -57,6 +57,10 @@ export default {
     },
     methods: {
         calculateBarColor(optimumValue, currentValue) {
+            if (optimumValue === null) {
+                return "#7fca31"
+            }
+
             if (currentValue < optimumValue) {
                 return "#7fca31"
             } else if (currentValue > optimumValue) {

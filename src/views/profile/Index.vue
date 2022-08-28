@@ -6,18 +6,24 @@
         </div>
     </div>
     <div v-else-if="userProfile !== undefined && userProfile !== null" class="pb-5">
-        <p>Hallo {{ userProfile.email }}, hier kannst Du Deinen Energie-Verbrauch tracken und hast jederzeit einen
+        <p>Hallo <span class="text-primary">{{ userProfile.displayName }}</span>, hier kannst Du Deinen
+            Energie-Verbrauch tracken und hast jederzeit einen
             Überblich
             über Deine Ernährung.</p>
-        <h2>Fitness-Tracker Integration</h2>
-        <div class="clearfix mb-3">
-            <p>Damit Du noch genauere Ergebnisse erhälst und speziell auf Dich zugeschnittene Ernährungsempfehlungen
-                erhälst,
-                kannst Du Deinen Fitness-Tracker anbinden.</p>
-            <b-button variant="primary" class="float-end">Anbindung starten &raquo;</b-button>
+        <h2>Dein täglicher Nährwert-bedarf</h2>
+        <p>Mit den von Dir erhaltenen Daten, haben wir Dir folgenden Nährwert-Bedarf errechnet:</p>
+        <div class="mb-5">
+            <NutritionScore :value="userProfile.dailyDemand.calories" :maximum="4000"
+                :label="`Kalorien (${userProfile.dailyDemand.calories} kcal)`" class="mb-1" />
+            <NutritionScore :value="userProfile.dailyDemand.carbohydrates" :maximum="2500"
+                :label="`Kohlenhydrate (${userProfile.dailyDemand.carbohydrates.toFixed(1)}g)`" class="mb-1" />
+            <NutritionScore :value="userProfile.dailyDemand.fat" :maximum="250"
+                :label="`Fett (${userProfile.dailyDemand.fat.toFixed(1)}g)`" class="mb-1" />
+            <NutritionScore :value="userProfile.dailyDemand.proteins" :maximum="250"
+                :label="`Proteine (${userProfile.dailyDemand.proteins.toFixed(1)}g)`" class="mb-1" />
         </div>
 
-        <h2>Sonstige Mahlzeiten aufzeichnen</h2>
+        <h2>Deine Mahlzeiten aufzeichnen</h2>
         <div class="mb-3">
             <p>Um den genauen restlichen Bedarf an Proteinen, Kohlenhydraten und Fetten zu errechnen, kannst Du mit
                 nachfolgendem Formular Deine Mahlzeiten vor dem Verzehr fotografieren. Das eingesendete Foto wird
@@ -26,6 +32,14 @@
                 Künstlichen Intelligenz analysiert und der entsprechende Nährwert errechnet.</p>
 
             <input ref="file" v-on:change="(e) => handleFileUpload(e)" type="file" />
+        </div>
+
+        <h2>Fitness-Tracker Integration</h2>
+        <div class="clearfix mb-3">
+            <p>Damit Du noch genauere Ergebnisse erhälst und speziell auf Dich zugeschnittene Ernährungsempfehlungen
+                erhälst,
+                kannst Du Deinen Fitness-Tracker anbinden.</p>
+            <b-button variant="primary" class="float-end">Anbindung starten &raquo;</b-button>
         </div>
 
         <h2>Sicher ausloggen</h2>
@@ -88,7 +102,7 @@ export default {
             }
         },
         handleFileUpload(event) {
-            uploadMeal(event.target.files[0])
+            uploadMeal(event.target.files[0], this.userProfile.id)
             event.target.value = null
 
             this.toast.success({ title: 'Bild-Upload erfolgreich', body: 'Das Bild wurde erfolgreich hochgeladen und wird analysiert.' })

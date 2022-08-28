@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-5">
         <div class="top-bar">
             <router-link to="/order">&laquo; Zurück</router-link>
         </div>
@@ -24,7 +24,9 @@
             </b-col>
         </b-row>
 
-        <b-button variant="primary" to="/order/payment" class="float-end">Weiter zur Zahlung &raquo;</b-button>
+        <div class="clearfix">
+            <b-button variant="primary" to="/order/payment" class="float-end">Weiter zur Zahlung &raquo;</b-button>
+        </div>
     </div>
 </template>
 
