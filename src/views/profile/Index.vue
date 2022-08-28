@@ -5,7 +5,7 @@
             <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
         </div>
     </div>
-    <div v-else-if="userProfile !== undefined && userProfile !== null">
+    <div v-else-if="userProfile !== undefined && userProfile !== null" class="pb-5">
         <p>Hallo {{ userProfile.email }}, hier kannst Du Deinen Energie-Verbrauch tracken und hast jederzeit einen
             Überblich
             über Deine Ernährung.</p>
@@ -30,6 +30,8 @@
 
         <h2>Sicher ausloggen</h2>
         <b-button variant="primary" class="float-end" @click="logout">Logout</b-button>
+
+        <b-button variant="success" @click="showToast">TOAST</b-button>
     </div>
 </template>
 
@@ -37,6 +39,7 @@
 import { useAuthStore } from '@/stores/auth';
 import { currentUserProfile } from '@/services/user-service'
 import { uploadMeal } from '@/services/user-service'
+import { useToast } from 'bootstrap-vue-3'
 
 import router from '../../router';
 import { ref } from 'vue';
@@ -50,9 +53,11 @@ export default {
         const userProfile = ref(null)
         const file = ref(null)
         const isLoading = ref(false)
+        const toast = useToast()
 
         return {
             auth,
+            toast,
             currentUserProfile,
             userProfile,
             file,
@@ -87,6 +92,12 @@ export default {
         handleFileUpload(event) {
             uploadMeal(event.target.files[0])
             event.target.value = null
+
+            this.toast.success({ title: 'Bild-Upload erfolgreich', body: 'Das Bild wurde erfolgreich hochgeladen und wird analysiert.' })
+            const self = this
+            setTimeout(() => {
+                self.toast.success({ title: 'Bild-Analyse abgeschlossen', body: 'Die Bildanalyse wurde abgeschlossen und die Nährwerte Deiner Mahlzeit wurden Deinem Tages-Saldo hinzugefügt.' })
+            }, 10000)
         }
     }
 }
