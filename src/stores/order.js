@@ -9,8 +9,8 @@ export const useOrderStore = defineStore("order", {
     }
   },
   actions: {
-    storeSelectedItem(selectedItem) {
-      this.currentOrder = selectedItem;
+    storeCurrentOrder(currentOrder) {
+      this.currentOrder = currentOrder;
     },
     removeCurrentOrder() {
       this.currentOrder = null

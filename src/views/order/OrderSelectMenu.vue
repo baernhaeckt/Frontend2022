@@ -139,7 +139,7 @@ export default {
       return result;
     },
     checkoutItem(itemToCheckout) {
-      this.orderStore.storeSelectedItem(itemToCheckout)
+      this.orderStore.storeCurrentOrder(itemToCheckout)
 
       router.push('/order/configuremenu')
     }

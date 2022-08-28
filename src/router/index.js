@@ -12,12 +12,16 @@ const router = createRouter({
     },
     {
       path: "/order",
+      meta: {
+        requireAuth: true,
+      },
       children: [
         {
           path: "",
           name: "SelectMenu",
           component: () => import("../views/order/OrderSelectMenu.vue"),
           meta: {
+            requireAuth: true,
             hideHeader: true,
           }
         },
@@ -26,6 +30,7 @@ const router = createRouter({
           name: "ConfigureMenu",
           component: () => import("../views/order/ConfigureMenu.vue"),
           meta: {
+            requireAuth: true,
             hideHeader: true,
           }
         },
@@ -34,6 +39,7 @@ const router = createRouter({
           name: "Payment",
           component: () => import("../views/order/Payment.vue"),
           meta: {
+            requireAuth: true,
           }
         },
         {
@@ -41,6 +47,7 @@ const router = createRouter({
           name: "ThankYou",
           component: () => import("../views/order/Thankyou.vue"),
           meta: {
+            requireAuth: true,
           }
         }
       ]

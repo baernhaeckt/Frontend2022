@@ -8,5 +8,5 @@ export function loadAllIngredients() {
 }
 
 export function loadIngredientsForDish(dish) {
-  return recommend.get();
+  return recommend.get(`/forDish?dish=${dish}`);
 }
