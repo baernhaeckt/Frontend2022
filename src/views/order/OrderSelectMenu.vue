@@ -20,7 +20,7 @@
               <h3 class="h5 mb-2">{{ recommendation.name }}</h3>
               <b-row>
                 <b-col :cols="8">
-                  <b-row v-for="(dish, dishIndex) in recommendation.dishes"
+                  <b-row v-for="(dish, dishIndex) in sortDishes(recommendation.dishes)"
                     :key="`DishDescription${groupIndex}_${groupItemIndex}_${dishIndex}`" class="mb-2">
                     <b-col :cols="3">
                       <DishSalad v-if="dish.dishType === 'Bowl'"></DishSalad>
@@ -112,6 +112,20 @@ export default {
       }, [[]])
 
       return result
+    },
+    sortDishes(data) {
+      return data.map(x => Object.assign({ sort: this.calculateSort(x) }, x)).sort((a, b) => a.sort - b.sort)
+    },
+    calculateSort(dish) {
+      if (dish.dishType === 'Bowl') {
+        return 1
+      } else if (dish.dishType === 'PotatoCubes') {
+        return 2
+      } else if (dish.dishType === 'Ice') {
+        return 3
+      } else {
+        return 4
+      }
     },
     calculateNutritionScores(dishes, dailyDemand = {}, dailyIntake = {}) {
       var result = [
