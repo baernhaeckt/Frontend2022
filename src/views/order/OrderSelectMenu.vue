@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="top-bar">
+      <router-link to="/">&laquo; Zurück</router-link>
+    </div>
+
     <OrderHeader @deselected-dishtypes:change="deselectedDishTypeChanged"></OrderHeader>
     <div v-if="isLoading" class="d-flex justify-content-center">
       <div class="mt-5">

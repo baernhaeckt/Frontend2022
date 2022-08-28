@@ -1,37 +1,43 @@
 <template>
-    <div class="top-bar">
-        <router-link to="/">&laquo; Zurück</router-link>
-    </div>
     <div class="order-header">
-        <b-row class="dish-selector-container">
+        <b-row :class="['dish-selector-container', { 'selector': dishtypeSelector }]">
             <b-col class="dish-selector-col">
-                <a class="dish-selector">
+                <a :class="['dish-selector', { 'active': dishtypeSelector && selectedDishType === 'Bowl' }]">
                     <DishSalad :enableClickAnimation="true" @click="() => toggleDishType('Bowl')"></DishSalad>
-                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Bowl') < 0" class="state-icon"></CheckMarkIcon>
-                    <CrossIcon v-else class="state-icon"></CrossIcon>
+                    <template v-if="!dishtypeSelector">
+                        <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Bowl') < 0" class="state-icon">
+                        </CheckMarkIcon>
+                        <CrossIcon v-else class="state-icon"></CrossIcon>
+                    </template>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
-                <a class="dish-selector">
+                <a :class="['dish-selector', { 'active': dishtypeSelector && selectedDishType === 'PotatoCubes' }]">
                     <DishCubes :enableClickAnimation="true" @click="() => toggleDishType('PotatoCubes')"></DishCubes>
-                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('PotatoCubes') < 0" class="state-icon">
-                    </CheckMarkIcon>
-                    <CrossIcon v-else class="state-icon"></CrossIcon>
+                    <template v-if="!dishtypeSelector">
+                        <CheckMarkIcon v-if="deselectedDishTypes.indexOf('PotatoCubes') < 0" class="state-icon">
+                        </CheckMarkIcon>
+                        <CrossIcon v-else class="state-icon"></CrossIcon>
+                    </template>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
-                <a class="dish-selector">
+                <a :class="['dish-selector', { 'active': dishtypeSelector && selectedDishType === 'Ice' }]">
                     <DishIce :enableClickAnimation="true" @click="() => toggleDishType('Ice')"></DishIce>
-                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Ice') < 0" class="state-icon"></CheckMarkIcon>
-                    <CrossIcon v-else class="state-icon"></CrossIcon>
+                    <template v-if="!dishtypeSelector">
+                        <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Ice') < 0" class="state-icon"></CheckMarkIcon>
+                        <CrossIcon v-else class="state-icon"></CrossIcon>
+                    </template>
                 </a>
             </b-col>
             <b-col class="dish-selector-col">
-                <a class="dish-selector">
+                <a :class="['dish-selector', { 'active': dishtypeSelector && selectedDishType === 'Smoothies' }]">
                     <DishDrink :enableClickAnimation="true" @click="() => toggleDishType('Smoothies')"></DishDrink>
-                    <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Smoothies') < 0" class="state-icon">
-                    </CheckMarkIcon>
-                    <CrossIcon v-else class="state-icon"></CrossIcon>
+                    <template v-if="!dishtypeSelector">
+                        <CheckMarkIcon v-if="deselectedDishTypes.indexOf('Smoothies') < 0" class="state-icon">
+                        </CheckMarkIcon>
+                        <CrossIcon v-else class="state-icon"></CrossIcon>
+                    </template>
                 </a>
             </b-col>
         </b-row>
@@ -46,12 +52,21 @@ import CheckMarkIcon from "$icons/check-mark.svg"
 import CrossIcon from "$icons/cancel.svg"
 
 export default {
-    emits: ['deselected-dishtypes:change'],
-    setup() {
-
+    emits: ['deselected-dishtypes:change', 'dishtype:change'],
+    props: {
+        dishtypeSelector: {
+            type: Boolean,
+            default: false
+        }
+    },
+    setup(props) {
+        const { dishtypeSelector } = toRefs(props)
         const deselectedDishTypes = ref([])
+        const selectedDishType = ref('Bowl')
 
         return {
+            dishtypeSelector,
+            selectedDishType,
             deselectedDishTypes
         }
     },
@@ -69,7 +84,10 @@ export default {
                 this.deselectedDishTypes.push(dishType)
             }
 
+            this.selectedDishType = dishType
+
             this.$emit('deselected-dishtypes:change', this.deselectedDishTypes)
+            this.$emit('dishtype:change', dishType)
         }
     },
     components: {
@@ -115,8 +133,20 @@ export default {
                     right: 5px;
                 }
             }
+        }
 
-            &:last-child {}
+        &.selector {
+            .dish-selector {
+                .filter-overlay {
+                    filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(6222%) hue-rotate(296deg) brightness(88%) contrast(79%) opacity(80%);
+                }
+
+                &.active {
+                    .filter-overlay {
+                        filter: brightness(0) saturate(100%) invert(71%) sepia(73%) saturate(433%) hue-rotate(40deg) brightness(88%) contrast(95%) opacity(15%);
+                    }
+                }
+            }
         }
     }
 }
