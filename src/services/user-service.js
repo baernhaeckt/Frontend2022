@@ -20,7 +20,8 @@ export function loginUser(email, password) {
 }
 
 export async function currentUserProfile() {
-  return await users.get("profile");
+  return await users.get("profile")
+    .catch(() => null);
 }
 
 export async function uploadMeal(mealFile, userId) {

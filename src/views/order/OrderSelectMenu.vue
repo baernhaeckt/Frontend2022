@@ -12,7 +12,7 @@
     </div>
     <b-row v-else class="select-menu">
       <b-col>
-        <b-card-group v-for="(recommendationLine, groupIndex) in groupBy(menuRecommendations, 2)"
+        <b-card-group v-for="(recommendationLine, groupIndex) in groupBy(menuRecommendations.menus, 2)"
           :key="`RecGroup${groupIndex}`">
           <b-card bg-variant="dark" v-for="(recommendation, groupItemIndex) in recommendationLine"
             :key="`RecItem${groupIndex}_${groupItemIndex}`">
@@ -40,7 +40,7 @@
                 <b-col :cols="4">
                   <NutritionScore v-if="recommendation.dishes" :label="nutritionScore.label"
                     :value="nutritionScore.value" :maximum="nutritionScore.maximum" :optimum="nutritionScore.optimum"
-                    v-for="(nutritionScore, scoreIndex) in calculateNutritionScores(recommendation.dishes)"
+                    v-for="(nutritionScore, scoreIndex) in calculateNutritionScores(recommendation.dishes, menuRecommendations.dailyDemand, menuRecommendations.dailyInTake)"
                     :key="`NutriScore${groupIndex}${groupItemIndex}${scoreIndex}`"></NutritionScore>
                 </b-col>
               </b-row>
@@ -93,7 +93,7 @@ export default {
     async loadMenuRecommendations() {
       this.isLoading = true
       const result = await recommendMenu(this.exceptDishTypes)
-      this.menuRecommendations = result.menus
+      this.menuRecommendations = result
       this.isLoading = false
     },
     groupBy(data = [], itemsPerGroup = 3) {
@@ -113,12 +113,12 @@ export default {
 
       return result
     },
-    calculateNutritionScores(dishes) {
+    calculateNutritionScores(dishes, dailyDemand = {}, dailyIntake = {}) {
       var result = [
-        this.calculateNutritionModel(dishes, x => x.calories, 250, 2500, 'kCal'),
-        this.calculateNutritionModel(dishes, x => x.carbohydrates, 300, 750, 'KH'),
-        this.calculateNutritionModel(dishes, x => x.fat, 233, 650, 'Fe'),
-        this.calculateNutritionModel(dishes, x => x.proteins, 528, 850, 'Prot')
+        this.calculateNutritionModel(dishes, x => x.calories, dailyDemand.calories - dailyIntake.calories, dailyDemand.calories, 'kCal'),
+        this.calculateNutritionModel(dishes, x => x.carbohydrates, dailyDemand.carbohydrates - dailyIntake.carbohydrates, dailyDemand.carbohydrates, 'KH'),
+        this.calculateNutritionModel(dishes, x => x.fat, dailyDemand.fat - dailyIntake.fat, dailyDemand.fat, 'Fe'),
+        this.calculateNutritionModel(dishes, x => x.proteins, dailyDemand.proteins - dailyIntake.proteins, dailyDemand.proteins, 'Prot')
       ]
       return result;
     },
