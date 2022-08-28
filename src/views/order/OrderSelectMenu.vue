@@ -44,9 +44,12 @@
                     :key="`NutriScore${groupIndex}${groupItemIndex}${scoreIndex}`"></NutritionScore>
                 </b-col>
               </b-row>
-              <b-button variant="link" class="cart-next-step" @click="() => checkoutItem(recommendation)">
-                <NextStep></NextStep>
-              </b-button>
+              <div class="cart-next-step">
+                <span class="price-display">{{ calculatePrice(recommendation) }} CHF</span>
+                <b-button variant="link" @click="() => checkoutItem(recommendation)">
+                  <NextStep></NextStep>
+                </b-button>
+              </div>
             </b-card-body>
           </b-card>
         </b-card-group>
@@ -86,6 +89,16 @@ export default {
     NextStep
   },
   methods: {
+    calculatePrice(menu) {
+      var price = 0
+      for (let index = 0; index < menu.dishes.length; index++) {
+        const ingredientCount = menu.dishes[index].ingredients.length
+
+        price += 3 * ingredientCount
+      }
+
+      return price.toFixed(2)
+    },
     deselectedDishTypeChanged(newDeselectedDishTypes) {
       this.exceptDishTypes = newDeselectedDishTypes
       this.loadMenuRecommendations()
@@ -178,6 +191,12 @@ export default {
     position: absolute;
     top: 10px;
     right: 18px;
+
+    .price-display {
+      padding-top: 7px;
+      color: #7fca31;
+      font-weight: 500;
+    }
 
     svg {
       width: 35px;

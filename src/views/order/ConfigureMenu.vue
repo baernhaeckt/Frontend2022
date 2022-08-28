@@ -25,6 +25,7 @@
         </b-row>
 
         <div class="fixed-bottom clearfix order-actions">
+            <span class="price-display">{{ calculatePrice() }} CHF</span>
             <b-button variant="primary" to="/order/payment" class="float-end">Weiter zur Zahlung &raquo;</b-button>
         </div>
     </div>
@@ -64,6 +65,16 @@ export default {
         }
     },
     methods: {
+        calculatePrice() {
+            var price = 0
+            for (let index = 0; index < this.currentOrder.dishes.length; index++) {
+                const ingredientCount = this.currentOrder.dishes[index].ingredients.length
+
+                price += 3 * ingredientCount
+            }
+
+            return price.toFixed(2)
+        },
         isIngredientInCurrentDish(ingredientName) {
             const dish = this.currentOrder.dishes.find(d => d.dishType === this.selectedDishType)
             if (dish === null || dish === undefined) {
@@ -126,6 +137,11 @@ export default {
 
         background: rgb(30, 25, 26);
         background: linear-gradient(180deg, rgba(30, 25, 26, 1) 10%, rgba(127, 202, 49, 1) 15%, rgba(30, 25, 26, 1) 15%);
+
+        .price-display {
+            color: #7fca31;
+            font-size: 1.5em;
+        }
     }
 }
 </style>
