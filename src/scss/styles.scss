@@ -6,6 +6,7 @@ $body-bg: #1e191a;
 $body-color: #eee;
 
 @import "/node_modules/bootstrap/scss/bootstrap";
+@import "/node_modules/bootstrap-vue-3/src/components/BToast/toast";
 
 .btn.btn-primary {
     &:focus {

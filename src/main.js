@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import BootstrapVue3 from "bootstrap-vue-3";
-
+import { BToastPlugin } from 'bootstrap-vue-3'
 import GlobalComponents from './globals'
 
 import App from "./App.vue";
@@ -19,6 +19,7 @@ const authStore = useAuthStore()
 authStore.startup()
 
 app.use(BootstrapVue3);
+app.use(BToastPlugin)
 app.use(router);
 
 app.use(GlobalComponents)

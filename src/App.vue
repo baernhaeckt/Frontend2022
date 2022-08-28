@@ -9,6 +9,8 @@ import Header from "./components/layout/Header.vue";
   <div class="container mb-3 main-view">
     <RouterView />
   </div>
+
+  <b-container :toast="{ root: true }" fluid="sm" position="position-fixed"></b-container>
 </template>
 
 <style lang="scss">
