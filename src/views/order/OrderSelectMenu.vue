@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="top-bar">
-      <router-link to="/">&laquo; Zurück</router-link>
+    <div class="top-bar mt-3 mb-2">
+      <b-button variant="dark" to="/">&laquo; Zurück</b-button>
     </div>
 
     <OrderHeader @deselected-dishtypes:change="deselectedDishTypeChanged"></OrderHeader>

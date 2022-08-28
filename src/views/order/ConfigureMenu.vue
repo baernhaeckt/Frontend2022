@@ -1,7 +1,7 @@
 <template>
-    <div class="mb-5">
-        <div class="top-bar">
-            <router-link to="/order">&laquo; Zurück</router-link>
+    <div class="mb-5 order-configuration">
+        <div class="top-bar mt-3 mb-2">
+            <b-button variant="dark" to="/order">&laquo; Zurück</b-button>
         </div>
 
         <OrderHeader dishtypeSelector @dishtype:change="dishTypeChanged"></OrderHeader>
@@ -11,7 +11,7 @@
                 <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
             </div>
         </div>
-        <b-row v-else class="select-menu mb-5">
+        <b-row v-else class="select-menu">
             <b-col :cols="3" v-for="(ingredient, ingredientIndex) in ingredientsList"
                 :v-key="`Ingredient_${ingredientIndex}`" class="mb-3">
                 <b-card variant="dark" class="ingredient-card">
@@ -24,7 +24,7 @@
             </b-col>
         </b-row>
 
-        <div class="clearfix">
+        <div class="fixed-bottom clearfix order-actions">
             <b-button variant="primary" to="/order/payment" class="float-end">Weiter zur Zahlung &raquo;</b-button>
         </div>
     </div>
@@ -97,22 +97,35 @@ export default {
 </script>
 
 <style lang="scss">
-.ingredient-card {
-    .card-body {
-        padding: 0;
+.order-configuration {
+    .select-menu {
+        margin-bottom: 50px;
+    }
 
-        >.card-body {
-            padding: 4px;
+    .ingredient-card {
+        .card-body {
+            padding: 0;
 
-            .state-icon {
-                width: 40px;
-                height: 40px;
+            >.card-body {
+                padding: 4px;
 
-                position: absolute;
-                bottom: 0;
-                right: 0;
+                .state-icon {
+                    width: 40px;
+                    height: 40px;
+
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                }
             }
         }
+    }
+
+    .order-actions {
+        padding: 25px 15px 15px 15px;
+
+        background: rgb(30, 25, 26);
+        background: linear-gradient(180deg, rgba(30, 25, 26, 1) 10%, rgba(127, 202, 49, 1) 15%, rgba(30, 25, 26, 1) 15%);
     }
 }
 </style>

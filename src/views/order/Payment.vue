@@ -45,10 +45,6 @@ export default {
     },
     methods: {
         selectProvider(providerName) {
-            const currentOrder = this.orderStore.currentOrder
-            currentOrder.payment = providerName
-
-            // submitOrder(currentOrder)
             this.orderStore.removeCurrentOrder()
 
             router.push("/order/thankyou")

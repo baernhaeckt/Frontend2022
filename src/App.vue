@@ -6,7 +6,7 @@ import Header from "./components/layout/Header.vue";
 <template>
   <Header v-if="!$route.meta.hideHeader" />
 
-  <div class="container mb-3 main-view">
+  <div class="container main-view">
     <RouterView />
   </div>
 
@@ -18,5 +18,7 @@ import Header from "./components/layout/Header.vue";
 
 .main-view {
   max-width: 600px;
+
+  margin-bottom: 75px;
 }
 </style>
