@@ -30,8 +30,6 @@
 
         <h2>Sicher ausloggen</h2>
         <b-button variant="primary" class="float-end" @click="logout">Logout</b-button>
-
-        <b-button variant="success" @click="showToast">TOAST</b-button>
     </div>
 </template>
 
